@@ -65,11 +65,11 @@ public class promodel {
 		
 		if(rs.next()) {
 			 b=new signup_entity();
-			
-			b.setFirstname(rs.getString(1));
-			b.setLastname(rs.getString(2));
-			b.setEmail(rs.getString(3));
-			b.setPassword(rs.getString(4));
+			b.setId(rs.getInt(1));
+			b.setFirstname(rs.getString(2));
+			b.setLastname(rs.getString(3));
+			b.setEmail(rs.getString(4));
+			b.setPassword(rs.getString(5));
 			System.out.println("logged in ");
 			
 		} 
@@ -312,7 +312,7 @@ public class promodel {
 			al.add(o);
 			
 		}
-		
+		System.out.println(al);
 		return al;
 		
 	}
@@ -347,5 +347,87 @@ public class promodel {
 	    
 	    return al;
 	}
+
+	public boolean deleteaddress(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		boolean b=false;
+		String sql="delete from order_address where id=?";
+		PreparedStatement ps=conn.prepareStatement(sql);
+		ps.setInt(1, id);
+		
+		int i=ps.executeUpdate();
+		
+		if(i==1) {
+			System.out.println("Deleted");
+			b=true;
+			
+			
+		}
+		
+		return b;
+	}
+
+	public boolean placeOrder(ArrayList<product_entity> cartList, int userId, String date,double price) throws SQLException {
+	    boolean b = false;
+
+	    String sql = "INSERT INTO pre_order (u_id, p_id, o_price, o_date) VALUES (?, ?, ?, ?)";
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        conn.setAutoCommit(false); // 
+
+	       
+	        for (product_entity product : cartList) {
+	            ps.setInt(1, userId);
+	            ps.setInt(2, product.getId());
+	            ps.setDouble(3,price);
+	            ps.setString(4, date);
+	            ps.addBatch();
+	           
+	        }
+
+	        // Execute batch update
+	        
+	        int[] result = ps.executeBatch();
+
+	        // Check if all statements were executed successfully
+	        for (int i : result) {
+	            if (i <= 0) {
+	                b = false;
+	                return b; // Return false if any statement failed
+	            }
+	        }
+
+	        // If all statements were executed successfully
+	        b = true;
+	        conn.commit(); // Commit transaction
+	    } catch (SQLException e) {
+	        // Handle SQLException
+	        conn.rollback(); // Rollback transaction
+	        throw e; // Rethrow exception
+	    } finally {
+	        conn.setAutoCommit(true); // Enable autocommit
+	    }
+
+	    return b;
+	}
+
+	public boolean totalprice(double totalprice) throws SQLException {
+		// TODO Auto-generated method stub
+		boolean b=false;
+		
+		String sql="insert into order_total(totalprice) values(?)";
+		PreparedStatement ps=conn.prepareStatement(sql);
+		ps.setDouble(1, totalprice);
+		
+		int i=ps.executeUpdate();
+		if(i==1) {
+			
+			System.out.println("Inserted in totalorders");
+			b=true;
+		}
+		
+		
+		return b;
+	}
+
 
 }

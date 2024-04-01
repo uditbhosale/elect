@@ -1,7 +1,13 @@
 package com.entity;
 
 public class signup_entity {
-	
+	private int id;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	String firstname;
 	String lastname;
 	String email;

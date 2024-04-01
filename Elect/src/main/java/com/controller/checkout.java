@@ -1,6 +1,8 @@
 package com.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,41 +43,43 @@ public class checkout extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		
-		String contact1=request.getParameter("contact");
-		String zipcode=request.getParameter("zip");
-		
-		
-		
-		long contact=0;
-		long zip=0;
 		
 		
 		try {
-		contact=Long.parseLong(contact1);
-	    System.out.println(contact);	
-		zip=Long.parseLong(zipcode);
-		System.out.println(zip);
-		String fullname=request.getParameter("fullname");
-		System.out.println(fullname);
-		String address=request.getParameter("address");
-		System.out.println(address);
-		String city=request.getParameter("city");
-		System.err.println(city);
-		String country=request.getParameter("country");
-		System.out.println(country);
+					String contact1=request.getParameter("contact");
+					String zipcode=request.getParameter("zip");
+					
+					
+					
+					long contact=0;
+					long zip=0;
+					
+					
+					
+					contact=Long.parseLong(contact1);
+				    System.out.println(contact);	
+					zip=Long.parseLong(zipcode);
+					System.out.println(zip);
+					String fullname=request.getParameter("fullname");
+					System.out.println(fullname);
+					String address=request.getParameter("address");
+					System.out.println(address);
+					String city=request.getParameter("city");
+					System.err.println(city);
+					String country=request.getParameter("country");
+					System.out.println(country);
+					
+					
+					orders_address o=new orders_address();
 		
 		
-		orders_address o=new orders_address();
-		
-		
-		try {
 			promodel ps=new promodel(jdbc_connection.getConnection());
 			
 			boolean b=ps.order_address(fullname,contact,address,city,zip,country);
 			
 			if(b) {
 				
-				response.sendRedirect("address_submit.jsp");
+				response.sendRedirect("paynow.jsp");
 			}
 			
 		}
@@ -84,12 +88,13 @@ public class checkout extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-	}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 	
-	}
+		
+		}
+			
+			
+		
+	
 	
 
-}
+			}

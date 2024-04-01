@@ -54,6 +54,9 @@ public class AddToCartServlet extends HttpServlet {
             product_entity cm = new product_entity();
             cm.setId(id);
             cm.setQuantity(1);
+            cm.getPrice2();
+          
+            
             HttpSession session = request.getSession();
             ArrayList<product_entity> cart_list = (ArrayList<product_entity>) session.getAttribute("cart-list");
             if (cart_list == null) {
@@ -68,7 +71,11 @@ public class AddToCartServlet extends HttpServlet {
                 for (product_entity c : cart_list) {
                     if (c.getId() == id) {
                         exist = true;
-                        out.println("<body style='background-color:#000'><h3 style='color:#01ff01; text-align: center'>Item Already in Cart. <a href='cart.jsp' style='color:#fff'>GO to Cart Page</a></h3></body");
+                        
+                        out.println("<script>alert('Item already in cart');</script>");
+                        response.setHeader("Refresh", "0; URL=index.jsp");
+                        break;
+                        
                     }
                 }
 

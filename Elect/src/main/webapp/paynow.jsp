@@ -1,5 +1,50 @@
+<%@page import="java.util.Base64"%>
+<%@page import="com.connection.jdbc_connection"%>
+<%@page import="com.model.promodel"%>
+<%@page import="com.entity.product_entity"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.entity.signup_entity"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <% signup_entity s1=(signup_entity)session.getAttribute("user_login");
+    
+    if(s1!=null){
+    	
+    	request.setAttribute("user_login",s1);
+    }
+    
+    ArrayList<product_entity> cart_list=(ArrayList<product_entity>) session.getAttribute("cart-list");
+    ArrayList<product_entity> al=null;
+    
+    if(cart_list!=null){
+    
+    promodel ps=new promodel(jdbc_connection.getConnection());
+	
+     al=ps.displaycart(cart_list);
+     
+     
+     
+     request.setAttribute("cart_list", cart_list); 
+     
+     double total=ps.getTotalCartPrice(cart_list);
+     
+     request.setAttribute("total", total);
+     
+    
+     
+    
+    
+    }
+    
+    HttpSession session2 = request.getSession();
+
+    // Retrieve the cart list from the session
+    ArrayList<product_entity> cartList = (ArrayList<product_entity>) session.getAttribute("cart-list");
+
+    // Retrieve the total price from the session
+    double totalprice = (Double) session2.getAttribute("totalprice");
+    
+    %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,11 +109,11 @@ width: 20%;
                </div>
             </div>
          </div>
-
+  
 <div class="container">
     <div class="payment-form">
         <h2 class="text-center mb-4">Checkout</h2>
-        <form id="paymentForm" action="/process_payment" method="POST">
+        <form id="paymentForm" action="buynow" method="post">
             <div class="form-group">
                 <label>Select Payment Method:</label><br>
                 <div class="form-check form-check-inline">
@@ -93,6 +138,11 @@ width: 20%;
                 <div class="form-group">
                     <label for="upiId">Enter UPI ID</label>
                     <input type="text" class="form-control" id="upiId" name="upiId" placeholder="Enter UPI ID">
+                    <br>
+                    <h6 style="color: #222529">OR</h6>
+                    
+                    <label for="upiId">Pay Using QR Code</label>
+                    <img alt="" src="images/photo-content/Paytm_QRcode (1).png" style="width: 30%;height: 30%;">
                 </div>
             </div>
 
@@ -132,16 +182,30 @@ width: 20%;
               
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block mt-3" style="background-color: black;">Proceed to Pay</button>
+            <button type="submit" class="btn btn-primary btn-block mt-3" style="background-color: black;" onclick="orderplaced()" href="ordertotal?totalprice=<%=totalprice %>">Proceed to Pay</button>
         </form>
     </div>
 </div>
+
+<%
+
+
+%>
+
 
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+        <script>
+  function orderplaced() {
+   
+    alert("Order submitted!");
+    
+    
+    window.location.href = "orders.jsp";
+  }
+</script>
 <script>
     // JavaScript to handle showing/hiding payment options based on radio button selection
     $(document).ready(function() {

@@ -1,4 +1,4 @@
-	<%@page import="java.sql.Blob"%>
+		<%@page import="java.sql.Blob"%>
 <%@page import="java.util.List"%>
 <%@page import="com.entity.product_entity"%>
 <%@page import="java.util.ArrayList"%>
@@ -285,7 +285,7 @@ try {
                             </div>
 
                             <div class="btn_main">
-                                <div class="buy_bt"><a href="#">Buy Now</a></div>
+                                <div class="buy_bt"><a href="buynow?id=<%=p.getId()%>">Buy Now</a></div>
                                 <div class="seemore_bt"><a href="AddToCartServlet?id=<%=p.getId() %>">Add to cart</a></div>
                             </div>
                         </div>
@@ -372,7 +372,7 @@ try {
                             </div>
 
                             <div class="btn_main">
-                                <div class="buy_bt"><a href="#">Buy Now</a></div>
+                                <div class="buy_bt"><a href="buynow?id=<%=p.getId()%>">Buy Now</a></div>
                                 <div class="seemore_bt"><a href="AddToCartServlet?id=<%=p.getId() %>">Add to cart</a></div>
                             </div>
                         </div>
@@ -456,7 +456,7 @@ try {
                             </div>
 
                             <div class="btn_main">
-                                <div class="buy_bt"><a href="#">Buy Now</a></div>
+                                <div class="buy_bt"><a href="buynow?id=<%=p.getId()%>">Buy Now</a></div>
                                 <div class="seemore_bt"><a href="AddToCartServlet?id=<%=p.getId() %>">Add to cart</a></div>
                             </div>
                         </div>
@@ -488,7 +488,12 @@ try {
 }
 %>
      
-     
+
+
+
+
+
+
       <!-- jewellery  section end -->
       <!-- footer section start -->
       <div class="footer_section layout_padding">
@@ -519,6 +524,12 @@ try {
       </div>
       <!-- copyright section end -->
       <!-- Javascript files-->
+      
+      
+      
+        
+
+     
       
       <script src="js/jquery.min.js"></script>
       <script src="js/popper.min.js"></script>

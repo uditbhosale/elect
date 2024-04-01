@@ -699,7 +699,7 @@ a:hover {
     background-color: #ffffff;
     height: auto;
     padding: 20px;
-    box-shadow: 0px 0 30px 10px #f0f0f0;
+    box-shadow: 0px 0 30px 10px #c8c8c8;
     margin-bottom: 20px;
 }
 
@@ -801,7 +801,7 @@ a:hover {
 #main_slider .carousel-control-next:hover,
 #main_slider .carousel-control-prev:focus,
 #main_slider .carousel-control-prev:hover {
-    color: #fff;
+    color: #000;
     background-color: #01ff01;
 }
 
@@ -902,7 +902,7 @@ a:hover {
 #electronic_main_slider .carousel-control-next:hover,
 #electronic_main_slider .carousel-control-prev:focus,
 #electronic_main_slider .carousel-control-prev:hover {
-    color: #fff;
+    color:black;
     background-color: #01ff01;
 }
 
@@ -949,7 +949,7 @@ a:hover {
 #jewellery_main_slider .carousel-control-next:hover,
 #jewellery_main_slider .carousel-control-prev:focus,
 #jewellery_main_slider .carousel-control-prev:hover {
-    color: #fff;
+    color: black;
     background-color: #01ff01;
 }
 

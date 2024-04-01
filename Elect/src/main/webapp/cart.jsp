@@ -1,6 +1,7 @@
 <%@page import="java.util.Base64"%>
 <%@page import="com.connection.jdbc_connection"%>
 <%@page import="com.model.promodel"%>
+<%@page import="com.controller.*"%>
 <%@page import="com.entity.signup_entity"%>
 <%@page import="com.entity.product_entity"%>
 <%@page import="java.util.ArrayList"%>
@@ -12,31 +13,26 @@
     	
     	request.setAttribute("user_login",s1);
     }
+    int userId=s1.getId();
     
     ArrayList<product_entity> cart_list=(ArrayList<product_entity>) session.getAttribute("cart-list");
     ArrayList<product_entity> al=null;
-    
+    double price=0;
     if(cart_list!=null){
     
     promodel ps=new promodel(jdbc_connection.getConnection());
 	
      al=ps.displaycart(cart_list);
      
-     
-     
      request.setAttribute("cart_list", cart_list); 
      
-     double total=ps.getTotalCartPrice(cart_list);
+      price=ps.getTotalCartPrice(cart_list);
      
-     request.setAttribute("total", total);
+     request.setAttribute("price", price);
      
-    
      
-    
-    
     }
-    
-    
+
     
     %>
 <!DOCTYPE html>
@@ -277,7 +273,7 @@ a:hover{
                             <div class="col">
                                 <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
                             </div>
-                            <div class="col">₹ <%=p.getPrice() %> <span class="close">&#10005;</span></div>
+                            <div class="col">₹ <%=p.getPrice() %> <a href="RemoveProduct?id=<%=p.getId()%>" class="close">&#10005;</a></div>
                         </div>
                     </div>
                   
@@ -297,7 +293,7 @@ a:hover{
                     <hr>
                     <div class="row">
                         <div class="col" style="padding-left:0;">ITEMS ${cart_list.size()}</div>
-                        <div class="col text-right">₹ ${ (total>0)?total:0 }</div>
+                        <div class="col text-right">₹ ${ (price>0)?price:0 }</div>
                     </div>
                     <form>
                         <p>SHIPPING</p>
@@ -305,17 +301,34 @@ a:hover{
                         <p>GIVE CODE</p>
                         <input id="code" placeholder="Enter your code">
                     </form>
+                    
+                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                        <div class="col">GST</div>
+                        <div class="col text-right">₹ ${price*0.18}</div>
+                    </div>
                     <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                         <div class="col">TOTAL PRICE</div>
-                        <div class="col text-right">₹ ${total+50}</div>
+                        <div class="col text-right">₹ ${price+50+(price*0.18)}</div>
+                       
                     </div>
-                  <a href="address.jsp"><button class="btn" >PLACE ORDER</button></a>  
+                    <%
+                    double total = price + 50 + (price * 0.18);
+                    %>
+                   <form action="checkaddress" method="post">
+                   <input type="hidden" name="userId" value="<%= userId %>">
+                   <input type="hidden" name="price" value="<%=price %>">
+                   <input type="hidden" name="totalprice" value="<%=total %>">
+                   
+                  <a href="checkaddress"><button class="btn" >PLACE ORDER</button></a> 
+                  </form>
                 </div>
             </div>
             
             
             
         </div>
+        
+
 
 </body>
 </html>

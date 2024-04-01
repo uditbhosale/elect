@@ -16,7 +16,7 @@
     
     ArrayList<product_entity> cart_list=(ArrayList<product_entity>) session.getAttribute("cart-list");
     ArrayList<product_entity> al=null;
-    
+    double price=0;
     if(cart_list!=null){
     
     promodel ps=new promodel(jdbc_connection.getConnection());
@@ -27,9 +27,9 @@
      
      request.setAttribute("cart_list", cart_list); 
      
-     double total=ps.getTotalCartPrice(cart_list);
+	price=ps.getTotalCartPrice(cart_list);
      
-     request.setAttribute("total", total);
+     request.setAttribute("price", price);
      
     
      
@@ -288,6 +288,7 @@ table {
                 <th>City</th>
                 <th>Zipcode</th>
                 <th>Country</th>
+                <th>Remove Address</th>
             </tr>
         </thead>
         <tbody>
@@ -298,11 +299,12 @@ table {
                 <td><%=p.getCity() %></td>
                 <td><%=p.getZip() %></td>
                 <td><%=p.getCountry() %></td>
+                <td><a href="deleteaddress?id=<%=p.getId()%>" class="close" ><p style="margin-left: 2%">&#10005;</p></a></td>
             </tr>
             
             
     </table>
-    
+   
     <%}}
     
     catch(Exception e){
@@ -315,14 +317,14 @@ table {
                     
                         
                         
-				<div class="back-to-shop"><a href="index.jsp">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+				<div class="back-to-shop"><a href="cart.jsp">&leftarrow;</a><span class="text-muted">Back to cart</span></div>
                 </div>
                 <div class="col-md-4 summary">
                     <div><h5><b>Summary</b></h5></div>
                     <hr>
                     <div class="row">
                         <div class="col" style="padding-left:0;">ITEMS ${cart_list.size()}</div>
-                        <div class="col text-right">₹ ${ (total>0)?total:0 }</div>
+                        <div class="col text-right">₹ ${ (price>0)?price:0 }</div>
                     </div>
                     <form>
                         <p>SHIPPING</p>
@@ -331,8 +333,13 @@ table {
                         <input id="code" placeholder="Enter your code">
                     </form>
                     <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                        <div class="col">GST</div>
+                        <div class="col text-right">₹ ${price*0.18}</div>
+                    </div>
+                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                         <div class="col">TOTAL PRICE</div>
-                        <div class="col text-right">₹ ${total+50}</div>
+                        <div class="col text-right">₹ ${price+50+(price*0.18)}</div>
+                       
                     </div>
                   <a href="paynow.jsp"><button class="btn" >Pay Now</button></a>  
                 </div>

@@ -55,7 +55,7 @@ public void setQuantity(int i) {
 	
 	
 }
-public double getQuantity() {
+public int getQuantity() {
 	// TODO Auto-generated method stub
 	return quantity;
 }
